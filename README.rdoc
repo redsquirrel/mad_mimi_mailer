@@ -5,18 +5,18 @@
 
 == DESCRIPTION:
 
-Let MadMimi handle your HTML emails. This is a drop-in replacement
+Let Mad Mimi handle your HTML emails. This is a drop-in replacement
 for ActionMailer.  MadMimiMailer extends ActionMailer::Base, so you
 can intermingle normal ActionMailer emails with emails sent via
-MadMimi.  Just start your MadMimi-specific emails with
-deliver_mimi_foo and it will send your MadMimi promotion named "foo".
+Mad Mimi.  Just start your Mad Mimi-specific emails with
+deliver_mimi_foo and it will send your Mad Mimi promotion named "foo".
 Oh, and it will also automatically import the recipient into your
-MadMimi account.
+Mad Mimi account.
 
 == TODO:
 
-If something goes wrong with the call to MadMimi, fallback and use
-plain old local Rails templates.
+* If something goes wrong with the call to Mad Mimi, fallback and use plain old local Rails templates.
+* Document how body data can be used in Mad Mimi templates
 
 == SYNOPSIS:
 
