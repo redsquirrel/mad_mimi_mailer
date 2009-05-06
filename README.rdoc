@@ -41,7 +41,7 @@ plain old local Rails templates.
 
   user = User.first
 
-  # Sent via MadMimi
+  # Sent via Mad Mimi
   UserNotifier.deliver_mimi_welcome(user)
 
   # Sent via good old ActionMailer
@@ -50,7 +50,7 @@ plain old local Rails templates.
 
 == REQUIREMENTS:
 
-* MadMimi account with Autoresponders enabled
+* A Mad Mimi account with Autoresponders enabled
 * ActionMailer
 
 
