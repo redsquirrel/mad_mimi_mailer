@@ -1,6 +1,7 @@
-= mad_mimi_mailer
+= Mad Mimi Mailer
 
-* http://madmimi/support/mailer
+* http://madmimi.com/support/mailer - API used by this gem
+* http://madmimi.com - Sign up for a Mad Mimi account
 
 == DESCRIPTION:
 
@@ -19,32 +20,32 @@ plain old local Rails templates.
 
 == SYNOPSIS:
 
-class UserNotifier < MadMimiEnabledMailer
-  def mimi_welcome(user)
-    subject "Welcome to WidgetHub"
-    recipients user.email
-    bcc ADMIN_PEEPS
-    from "admin@example.com"
-    body :username => user.name, :email => user.email, :password => user.password    
-  end
+  class UserNotifier < MadMimiEnabledMailer
+    def mimi_welcome(user)
+      subject "Welcome to WidgetHub"
+      recipients user.email
+      bcc ADMIN_PEEPS
+      from "admin@example.com"
+      body :username => user.name, :email => user.email, :password => user.password    
+    end
   
-  def reset(user)
-    subject "Resetting your WidgetHub account"
-    recipients user.email
-    bcc ADMIN_PEEPS
-    from "admin@example.com"
-    body :user => user
+    def reset(user)
+      subject "Resetting your WidgetHub account"
+      recipients user.email
+      bcc ADMIN_PEEPS
+      from "admin@example.com"
+      body :user => user
+    end
   end
-end
 
 
-user = User.first
+  user = User.first
 
-# Sent via MadMimi
-UserNotifier.deliver_mimi_welcome(user)
+  # Sent via MadMimi
+  UserNotifier.deliver_mimi_welcome(user)
 
-# Sent via good old ActionMailer
-UserNotifier.deliver_reset(user)
+  # Sent via good old ActionMailer
+  UserNotifier.deliver_reset(user)
 
 
 == REQUIREMENTS:
@@ -60,25 +61,25 @@ UserNotifier.deliver_reset(user)
 
 == LICENSE:
 
-(The MIT License)
+  (The MIT License)
 
-Copyright (c) 2009 Dave Hoover, Obtiva Corporation
+  Copyright (c) 2009 Dave Hoover, Obtiva Corporation
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  'Software'), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
+  The above copyright notice and this permission notice shall be
+  included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
