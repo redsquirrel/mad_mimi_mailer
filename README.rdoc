@@ -20,7 +20,7 @@ plain old local Rails templates.
 
 == SYNOPSIS:
 
-  class UserNotifier < MadMimiEnabledMailer
+  class UserNotifier < MadMimiMailer
     def mimi_welcome(user)
       subject "Welcome to WidgetHub"
       recipients user.email
