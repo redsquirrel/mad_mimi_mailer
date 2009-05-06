@@ -1,0 +1,84 @@
+= mad_mimi_mailer
+
+* http://madmimi/support/mailer
+
+== DESCRIPTION:
+
+Let MadMimi handle your HTML emails. This is a drop-in replacement
+for ActionMailer.  MadMimiMailer extends ActionMailer::Base, so you
+can intermingle normal ActionMailer emails with emails sent via
+MadMimi.  Just start your MadMimi-specific emails with
+deliver_mimi_foo and it will send your MadMimi promotion named "foo".
+Oh, and it will also automatically import the recipient into your
+MadMimi account.
+
+== TODO:
+
+If something goes wrong with the call to MadMimi, fallback and use
+plain old local Rails templates.
+
+== SYNOPSIS:
+
+class UserNotifier < MadMimiEnabledMailer
+  def mimi_welcome(user)
+    subject "Welcome to WidgetHub"
+    recipients user.email
+    bcc ADMIN_PEEPS
+    from "admin@example.com"
+    body :username => user.name, :email => user.email, :password => user.password    
+  end
+  
+  def reset(user)
+    subject "Resetting your WidgetHub account"
+    recipients user.email
+    bcc ADMIN_PEEPS
+    from "admin@example.com"
+    body :user => user
+  end
+end
+
+
+user = User.first
+
+# Sent via MadMimi
+UserNotifier.deliver_mimi_welcome(user)
+
+# Sent via good old ActionMailer
+UserNotifier.deliver_reset(user)
+
+
+== REQUIREMENTS:
+
+* MadMimi account with Autoresponders enabled
+* ActionMailer
+
+
+== INSTALL:
+
+* sudo gem install mad_mimi_mailer
+
+
+== LICENSE:
+
+(The MIT License)
+
+Copyright (c) 2009 FIX
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
