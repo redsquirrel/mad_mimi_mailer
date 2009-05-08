@@ -3,7 +3,7 @@ require "net/http"
 
 class MadMimiMailer < ActionMailer::Base
   VERSION = '0.0.1'
-  SINGLE_SEND_URL = 'https://madmimi.com/single_sends'
+  SINGLE_SEND_URL = 'https://madmimi.com/mailer'
 
   @@api_settings = {}
   cattr_accessor :api_settings
