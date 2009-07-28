@@ -14,6 +14,7 @@ class MadMimiMailer
     subject greeting
     recipients "tyler@obtiva.com"
     from "dave@obtiva.com"
+    bcc ["Gregg Pollack <gregg@example.com>", "David Clymer <david@example>"]
     body :message => greeting
   end
 end
@@ -28,7 +29,7 @@ class TestMadMimiMailer < Test::Unit::TestCase
       'promotion_name' => "hello",
       'recipients' =>     "tyler@obtiva.com",
       'subject' =>        "welcome to mad mimi",
-      'bcc' =>            nil,
+      'bcc' =>            "Gregg Pollack <gregg@example.com>, David Clymer <david@example>",
       'from' =>           "dave@obtiva.com",
       'body' =>           "--- \n:message: welcome to mad mimi\n"
     )

@@ -1,5 +1,6 @@
 require "actionmailer"
 require "net/http"
+require "net/https"
 
 class MadMimiMailer < ActionMailer::Base
   VERSION = '0.0.1'
@@ -38,11 +39,11 @@ class MadMimiMailer < ActionMailer::Base
         request.set_form_data(
           'username' => api_settings[:username],
           'api_key' =>  api_settings[:api_key],
-        
+          
           'promotion_name' => method.to_s.sub(/^mimi_/, ''),
-          'recipients' =>     mail.recipients,
+          'recipients' =>     serialize(mail.recipients),
           'subject' =>        mail.subject,
-          'bcc' =>            mail.bcc,
+          'bcc' =>            serialize(mail.bcc),
           'from' =>           mail.from,
           'body' =>           mail.body.to_yaml
         )       
@@ -64,6 +65,17 @@ class MadMimiMailer < ActionMailer::Base
       http.use_ssl = true
       http.start do |http|
         http.request(request)
+      end
+    end
+    
+    def serialize(recipients)
+      case recipients
+      when String
+        recipients
+      when Array
+        recipients.join(", ")
+      else
+        raise "Please provide a String or an Array for recipients or bcc."
       end
     end
   end
