@@ -96,4 +96,13 @@ class TestMadMimiMailer < Test::Unit::TestCase
       MadMimiMailer.deliver_mimi_hello("welcome to mad mimi")
     end
   end
+
+  def test_assert_mail_sent
+    ActionMailer::Base.delivery_method = :test
+    MadMimiMailer.deliver_mimi_hello("welcome to mad mimi")
+    ActionMailer::Base.delivery_method = :smtp
+
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal "MadMimiMailer", ActionMailer::Base.deliveries.last.class.name
+  end
 end

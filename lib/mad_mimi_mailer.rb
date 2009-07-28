@@ -27,8 +27,7 @@ class MadMimiMailer < ActionMailer::Base
       return unless perform_deliveries
 
       if delivery_method == :test
-        deliveries << self
-        
+        deliveries << mail
       else
         call_api!(mail, method)
       end
