@@ -10,6 +10,15 @@ MadMimiMailer.api_settings = {
 }    
 
 class MadMimiMailer
+  def mimi_hola(greeting)
+    subject greeting
+    recipients "tyler@obtiva.com"
+    from "dave@obtiva.com"
+    bcc ["Gregg Pollack <gregg@example.com>", "David Clymer <david@example>"]
+    promotion "hello"
+    body :message => greeting
+  end
+
   def mimi_hello(greeting)
     subject greeting
     recipients "tyler@obtiva.com"
@@ -27,6 +36,24 @@ class MadMimiMailer
 end
 
 class TestMadMimiMailer < Test::Unit::TestCase
+
+  def test_custom_promotion
+    mock_request = mock("request")
+    mock_request.expects(:set_form_data).with(
+      'username' => "testy@mctestin.com",
+      'api_key' =>  "w00tb4r",
+      'promotion_name' => "hello",
+      'recipients' =>     "tyler@obtiva.com",
+      'subject' =>        "welcome to mad mimi",
+      'bcc' =>            "Gregg Pollack <gregg@example.com>, David Clymer <david@example>",
+      'from' =>           "dave@obtiva.com",
+      'body' =>           "--- \n:message: welcome to mad mimi\n"
+    )
+    response = Net::HTTPSuccess.new("1.2", '200', 'OK')
+    MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)    
+
+    MadMimiMailer.deliver_mimi_hola("welcome to mad mimi")
+  end
 
   def test_happy_path
     mock_request = mock("request")

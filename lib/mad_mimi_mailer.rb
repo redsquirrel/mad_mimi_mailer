@@ -9,6 +9,14 @@ class MadMimiMailer < ActionMailer::Base
   @@api_settings = {}
   cattr_accessor :api_settings
 
+  def promotion(promotion = nil)
+    if promotion.present? 
+      @promotion = promotion
+    else
+      @promotion
+    end
+  end
+
   class << self  
         
     def method_missing(method_symbol, *parameters)
@@ -39,7 +47,7 @@ class MadMimiMailer < ActionMailer::Base
           'username' => api_settings[:username],
           'api_key' =>  api_settings[:api_key],
           
-          'promotion_name' => method.to_s.sub(/^mimi_/, ''),
+          'promotion_name' => mail.promotion || method.to_s.sub(/^mimi_/, ''),
           'recipients' =>     serialize(mail.recipients),
           'subject' =>        mail.subject,
           'bcc' =>            mail.bcc.present? ? serialize(mail.bcc) : '',
