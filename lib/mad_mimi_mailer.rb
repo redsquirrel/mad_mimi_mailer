@@ -43,7 +43,7 @@ class MadMimiMailer < ActionMailer::Base
           'promotion_name' => method.to_s.sub(/^mimi_/, ''),
           'recipients' =>     serialize(mail.recipients),
           'subject' =>        mail.subject,
-          'bcc' =>            serialize(mail.bcc),
+          'bcc' =>            mail.bcc.present? ? serialize(mail.bcc) : '',
           'from' =>           mail.from,
           'body' =>           mail.body.to_yaml
         )       
