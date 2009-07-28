@@ -80,7 +80,7 @@ class TestMadMimiMailer < Test::Unit::TestCase
       'api_key' =>  "w00tb4r",
       'promotion_name' => "hello_sans_bcc",
       'recipients' =>     "tyler@obtiva.com",
-      'bcc' =>            "",
+      'bcc' =>            nil,
       'subject' =>        "welcome to mad mimi",
       'from' =>           "dave@obtiva.com",
       'body' =>           "--- \n:message: welcome to mad mimi\n"

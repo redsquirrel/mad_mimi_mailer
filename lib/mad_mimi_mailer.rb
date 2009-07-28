@@ -50,7 +50,7 @@ class MadMimiMailer < ActionMailer::Base
           'promotion_name' => mail.promotion || method.to_s.sub(/^mimi_/, ''),
           'recipients' =>     serialize(mail.recipients),
           'subject' =>        mail.subject,
-          'bcc' =>            mail.bcc.present? ? serialize(mail.bcc) : '',
+          'bcc' =>            serialize(mail.bcc),
           'from' =>           mail.from,
           'body' =>           mail.body.to_yaml
         )       
@@ -81,6 +81,8 @@ class MadMimiMailer < ActionMailer::Base
         recipients
       when Array
         recipients.join(", ")
+      when NilClass
+        nil
       else
         raise "Please provide a String or an Array for recipients or bcc."
       end
