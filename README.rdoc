@@ -1,6 +1,6 @@
 = Mad Mimi Mailer
 
-* http://madmimi.com/support/mailer - API used by this gem
+* http://developer.madmimi.com - Learn more about the API used by this gem
 * http://madmimi.com - Sign up for a Mad Mimi account
 
 == DESCRIPTION:
@@ -50,7 +50,7 @@ Mad Mimi account.
 
 == REQUIREMENTS:
 
-* A Mad Mimi account with Autoresponders enabled
+* A Mad Mimi account with Mailer API enabled
 * ActionMailer
 
 
