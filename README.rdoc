@@ -17,6 +17,7 @@ Mad Mimi account.
 
 * If something goes wrong with the call to Mad Mimi, fallback and use plain old local Rails templates.
 * Document how body data can be used in Mad Mimi templates
+* Document promotion, hidden, and use_erb options
 
 == SYNOPSIS:
 
@@ -38,6 +39,10 @@ Mad Mimi account.
     end
   end
 
+  MadMimiMailer.api_settings = {
+    :username => 'dave@example.com',
+    :api_key => '75a6c6f1SomeFakeApiKeycbcc300'
+  }
 
   user = User.first
 

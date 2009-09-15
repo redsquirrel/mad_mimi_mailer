@@ -10,6 +10,8 @@ MadMimiMailer.api_settings = {
 }    
 
 class MadMimiMailer
+  self.template_root = File.dirname(__FILE__) + '/templates/'
+  
   def mimi_hola(greeting)
     subject greeting
     recipients "tyler@obtiva.com"
@@ -27,6 +29,25 @@ class MadMimiMailer
     body :message => greeting
   end
 
+  def mimi_hello_erb(greeting)
+    subject greeting
+    recipients "tyler@obtiva.com"
+    from "dave@obtiva.com"
+    promotion "w00t"
+    use_erb true
+    body :message => greeting
+  end
+
+
+  def mimi_bye_erb(greeting)
+    subject greeting
+    recipients "tyler@obtiva.com"
+    from "dave@obtiva.com"
+    promotion "w00t"
+    use_erb true
+    body :message => greeting
+  end
+    
   def mimi_hello_sans_bcc(greeting)
     subject greeting
     recipients "tyler@obtiva.com"
@@ -47,7 +68,8 @@ class TestMadMimiMailer < Test::Unit::TestCase
       'subject' =>        "welcome to mad mimi",
       'bcc' =>            "Gregg Pollack <gregg@example.com>, David Clymer <david@example>",
       'from' =>           "dave@obtiva.com",
-      'body' =>           "--- \n:message: welcome to mad mimi\n"
+      'body' =>           "--- \n:message: welcome to mad mimi\n",
+      'hidden' =>         nil
     )
     response = Net::HTTPSuccess.new("1.2", '200', 'OK')
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)    
@@ -65,7 +87,8 @@ class TestMadMimiMailer < Test::Unit::TestCase
       'subject' =>        "welcome to mad mimi",
       'bcc' =>            "Gregg Pollack <gregg@example.com>, David Clymer <david@example>",
       'from' =>           "dave@obtiva.com",
-      'body' =>           "--- \n:message: welcome to mad mimi\n"
+      'body' =>           "--- \n:message: welcome to mad mimi\n",
+      'hidden' =>         nil
     )
     response = Net::HTTPSuccess.new("1.2", '200', 'OK')
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)    
@@ -83,7 +106,8 @@ class TestMadMimiMailer < Test::Unit::TestCase
       'bcc' =>            nil,
       'subject' =>        "welcome to mad mimi",
       'from' =>           "dave@obtiva.com",
-      'body' =>           "--- \n:message: welcome to mad mimi\n"
+      'body' =>           "--- \n:message: welcome to mad mimi\n",
+      'hidden' =>         nil
     )
     response = Net::HTTPSuccess.new("1.2", '200', 'OK')
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)    
@@ -91,6 +115,31 @@ class TestMadMimiMailer < Test::Unit::TestCase
     MadMimiMailer.deliver_mimi_hello_sans_bcc("welcome to mad mimi")
   end
 
+  def test_erb_render
+    mock_request = mock("request")
+    mock_request.expects(:set_form_data).with(
+      'username' => "testy@mctestin.com",
+      'api_key' =>  "w00tb4r",
+      'promotion_name' => "w00t",
+      'recipients' =>     "tyler@obtiva.com",
+      'bcc' =>            nil,
+      'subject' =>        "welcome to mad mimi",
+      'from' =>           "dave@obtiva.com",
+      'raw_html' =>       "hi there, welcome to mad mimi [[peek_image]]",
+      'hidden' =>         nil
+    )
+    response = Net::HTTPSuccess.new("1.2", '200', 'OK')
+    MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)    
+
+    MadMimiMailer.deliver_mimi_hello_erb("welcome to mad mimi")
+  end
+
+  def test_erb_render_fails_without_peek_image
+    assert_raise MadMimiMailer::ValidationError do
+      MadMimiMailer.deliver_mimi_bye_erb("welcome to mad mimi")
+    end
+  end
+  
   def test_bad_promotion_name
     mock_request = mock("request")
     mock_request.stubs(:set_form_data)
