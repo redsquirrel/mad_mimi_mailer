@@ -38,7 +38,6 @@ class MadMimiMailer
     body :message => greeting
   end
 
-
   def mimi_bye_erb(greeting)
     subject greeting
     recipients "tyler@obtiva.com"
