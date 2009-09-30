@@ -92,7 +92,7 @@ class MadMimiMailer < ActionMailer::Base
       
       case response
       when Net::HTTPSuccess
-        response
+        response.body
       else
         response.error!
       end
@@ -124,4 +124,14 @@ class MadMimiMailer < ActionMailer::Base
   end
   
   class ValidationError < StandardError; end
+end
+
+# Adding the response body to HTTPResponse errors to provide better error messages.
+module Net
+  class HTTPResponse
+    def error!
+      message = @code + ' ' + @message.dump + ' ' + body
+      raise error_type().new(message, self)
+    end
+  end
 end

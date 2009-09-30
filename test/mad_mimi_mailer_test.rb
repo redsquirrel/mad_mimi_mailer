@@ -71,6 +71,7 @@ class TestMadMimiMailer < Test::Unit::TestCase
       'hidden' =>         nil
     )
     response = Net::HTTPSuccess.new("1.2", '200', 'OK')
+    response.stubs(:body).returns("123435")
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)    
 
     MadMimiMailer.deliver_mimi_hola("welcome to mad mimi")
@@ -90,9 +91,11 @@ class TestMadMimiMailer < Test::Unit::TestCase
       'hidden' =>         nil
     )
     response = Net::HTTPSuccess.new("1.2", '200', 'OK')
+    response.stubs(:body).returns("123435")
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)    
 
-    MadMimiMailer.deliver_mimi_hello("welcome to mad mimi")
+    promotion_attempt_id = MadMimiMailer.deliver_mimi_hello("welcome to mad mimi")
+    assert_equal "123435", promotion_attempt_id
   end
 
   def test_blank_bcc
@@ -109,6 +112,7 @@ class TestMadMimiMailer < Test::Unit::TestCase
       'hidden' =>         nil
     )
     response = Net::HTTPSuccess.new("1.2", '200', 'OK')
+    response.stubs(:body).returns("123435")
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)    
 
     MadMimiMailer.deliver_mimi_hello_sans_bcc("welcome to mad mimi")
@@ -128,6 +132,7 @@ class TestMadMimiMailer < Test::Unit::TestCase
       'hidden' =>         nil
     )
     response = Net::HTTPSuccess.new("1.2", '200', 'OK')
+    response.stubs(:body).returns("123435")
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)    
 
     MadMimiMailer.deliver_mimi_hello_erb("welcome to mad mimi")
@@ -143,6 +148,7 @@ class TestMadMimiMailer < Test::Unit::TestCase
     mock_request = mock("request")
     mock_request.stubs(:set_form_data)
     response = Net::HTTPNotFound.new('1.2', '404', 'Not found')
+    response.stubs(:body).returns("Could not find promotion by that name")
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)    
 
     assert_raise(Net::HTTPServerException) do
@@ -154,6 +160,7 @@ class TestMadMimiMailer < Test::Unit::TestCase
     mock_request = mock("request")
     mock_request.stubs(:set_form_data)
     response = Net::HTTPPaymentRequired.new('1.2', '402', 'Payment required')
+    response.stubs(:body).returns("Please upgrade")
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)    
 
     assert_raise(Net::HTTPServerException) do
@@ -161,10 +168,11 @@ class TestMadMimiMailer < Test::Unit::TestCase
     end
   end
   
-  def test_no_autoresponder_enabled
+  def test_no_mailer_api_enabled
     mock_request = mock("request")
     mock_request.stubs(:set_form_data)
     response = Net::HTTPUnauthorized.new('1.2', '401', 'Unauthorized')
+    response.stubs(:body).returns("Please get an mailer api subscription")
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)    
 
     assert_raise(Net::HTTPServerException) do
