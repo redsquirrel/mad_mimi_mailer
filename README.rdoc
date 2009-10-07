@@ -61,7 +61,8 @@ Mad Mimi account.
 
 == INSTALL:
 
-* sudo gem install mad_mimi_mailer
+* gem sources -a http://gems.github.com (you only have to do this once)
+* gem install redsquirrel-mad_mimi_mailer
 
 
 == LICENSE:
