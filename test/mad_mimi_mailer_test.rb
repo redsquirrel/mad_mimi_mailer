@@ -66,6 +66,10 @@ end
 
 class TestMadMimiMailer < Test::Unit::TestCase
 
+  def setup
+    ActionMailer::Base.deliveries.clear
+  end
+
   def test_custom_promotion
     mock_request = mock("request")
     mock_request.expects(:set_form_data).with(
@@ -165,6 +169,14 @@ class TestMadMimiMailer < Test::Unit::TestCase
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)
 
     MadMimiMailer.deliver_mimi_multipart_hello_erb("welcome to mad mimi")
+  end
+
+  def test_deliveries_contain_tmail_objects_when_use_erb_in_test_mode
+    ActionMailer::Base.delivery_method = :test
+    MadMimiMailer.deliver_mimi_multipart_hello_erb("welcome to mad mimi")
+    ActionMailer::Base.delivery_method = :smtp
+
+    assert ActionMailer::Base.deliveries.all?{|m| m.kind_of?(TMail::Mail)}
   end
 
   def test_erb_render_fails_without_peek_image
