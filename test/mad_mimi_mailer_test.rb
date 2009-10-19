@@ -38,6 +38,15 @@ class MadMimiMailer
     body :message => greeting
   end
 
+  def mimi_multipart_hello_erb(greeting)
+    subject greeting
+    recipients "sandro@hashrocket.com"
+    from "stephen@hashrocket.com"
+    promotion "w00t"
+    use_erb true
+    body :message => greeting
+  end
+
   def mimi_bye_erb(greeting)
     subject greeting
     recipients "tyler@obtiva.com"
@@ -136,6 +145,26 @@ class TestMadMimiMailer < Test::Unit::TestCase
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)
 
     MadMimiMailer.deliver_mimi_hello_erb("welcome to mad mimi")
+  end
+
+  def test_multipart_erb_render
+    mock_request = mock("request")
+    mock_request.expects(:set_form_data).with(
+      'username' => "testy@mctestin.com",
+      'api_key' =>  "w00tb4r",
+      'promotion_name' => 'w00t',
+      'recipients' =>     "sandro@hashrocket.com",
+      'bcc' =>            nil,
+      'subject' =>        "welcome to mad mimi",
+      'from' =>           "stephen@hashrocket.com",
+      'raw_html' =>       "hi there, welcome to mad mimi [[peek_image]]",
+      'hidden' =>         nil
+    )
+    response = Net::HTTPSuccess.new("1.2", '200', 'OK')
+    response.stubs(:body).returns("123435")
+    MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)
+
+    MadMimiMailer.deliver_mimi_multipart_hello_erb("welcome to mad mimi")
   end
 
   def test_erb_render_fails_without_peek_image

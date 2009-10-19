@@ -68,7 +68,6 @@ class MadMimiMailer < ActionMailer::Base
       params = {
         'username' => api_settings[:username],
         'api_key' =>  api_settings[:api_key],
-
         'promotion_name' => mail.promotion || method.to_s.sub(/^mimi_/, ''),
         'recipients' =>     serialize(mail.recipients),
         'subject' =>        mail.subject,
@@ -78,9 +77,14 @@ class MadMimiMailer < ActionMailer::Base
       }
 
       if mail.use_erb
+        if mail.parts.any?
+          mail = mail.parts.detect {|p| p.content_type == 'text/html' }
+        end
+
         unless mail.body.include?("[[peek_image]]")
           raise ValidationError, "You must include a web beacon in your Mimi email: [[peek_image]]"
         end
+
         params['raw_html'] = mail.body
       else
         params['body'] = mail.body.to_yaml
