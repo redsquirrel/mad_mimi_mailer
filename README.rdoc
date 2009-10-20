@@ -61,6 +61,8 @@ Mad Mimi account.
 
 == INSTALL:
 
+* sudo gem install gemcutter
+* gem tumble
 * sudo gem install mad_mimi_mailer
 
 
