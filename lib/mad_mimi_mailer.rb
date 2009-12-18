@@ -1,4 +1,4 @@
-require "actionmailer"
+require "action_mailer"
 require "net/http"
 require "net/https"
 
