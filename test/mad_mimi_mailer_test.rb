@@ -161,7 +161,8 @@ class TestMadMimiMailer < Test::Unit::TestCase
       'bcc' =>            nil,
       'subject' =>        "welcome to mad mimi",
       'from' =>           "stephen@hashrocket.com",
-      'raw_html' =>       "hi there, welcome to mad mimi [[peek_image]]",
+      'raw_html' =>       "hi there, welcome to mad mimi [[tracking_beacon]]",
+      'raw_plain_text' => "hi there, welcome to mad mimi!",
       'hidden' =>         nil
     )
     response = Net::HTTPSuccess.new("1.2", '200', 'OK')
