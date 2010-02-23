@@ -60,7 +60,12 @@ class MadMimiMailer < ActionMailer::Base
       if delivery_method == :test
         deliveries << (mail.mail ? mail.mail : mail)
       else
-        call_api!(mail, method)
+        if (all_recipients = mail.recipients).is_a? Array
+          all_recipients.each do |recipient|
+            mail.recipients = recipient
+            call_api!(mail, method)
+          end
+        end
       end
     end
 
