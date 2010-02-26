@@ -65,6 +65,8 @@ class MadMimiMailer < ActionMailer::Base
             mail.recipients = recipient
             call_api!(mail, method)
           end
+        else
+          call_api!(mail, method)
         end
       end
     end
