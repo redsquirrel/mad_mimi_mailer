@@ -34,6 +34,14 @@ class MadMimiMailer < ActionMailer::Base
       @hidden = hidden
     end
   end
+  
+  def unconfirmed(value = nil)
+    if value.nil?
+      @unconfirmed
+    else
+      @unconfirmed = value
+    end
+  end
 
   # Class methods
 
@@ -82,6 +90,8 @@ class MadMimiMailer < ActionMailer::Base
         'from' =>           mail.from,
         'hidden' =>         serialize(mail.hidden)
       }
+
+      params['unconfirmed'] = '1' if mail.unconfirmed
 
       if mail.use_erb
         if mail.parts.any?

@@ -62,6 +62,15 @@ class MadMimiMailer
     from "dave@obtiva.com"
     body :message => greeting
   end
+  
+  def mimi_unconfirmed(greeting)
+    subject greeting
+    recipients 'egunderson@obtiva.com'
+    from 'mimi@obtiva.com'
+    promotion 'woot'
+    body :message => greeting
+    unconfirmed true
+  end
 end
 
 class TestMadMimiMailer < Test::Unit::TestCase
@@ -229,5 +238,26 @@ class TestMadMimiMailer < Test::Unit::TestCase
 
     assert_equal 1, ActionMailer::Base.deliveries.size
     assert_equal "MadMimiMailer", ActionMailer::Base.deliveries.last.class.name
+  end
+  
+  def test_delivers_contain_unconfirmed_param_if_unconfirmed_is_set
+    mock_request = mock("request")
+    mock_request.expects(:set_form_data).with(
+      'username' => "testy@mctestin.com",
+      'api_key' =>  "w00tb4r",
+      'body' => "--- \n:message: welcome unconfirmed user\n",
+      'promotion_name' => "woot",
+      'recipients' =>     'egunderson@obtiva.com',
+      'bcc' =>            nil,
+      'subject' =>        "welcome unconfirmed user",
+      'from' =>           "mimi@obtiva.com",
+      'hidden' =>         nil,
+      'unconfirmed' =>    '1'
+    )
+    response = Net::HTTPSuccess.new("1.2", '200', 'OK')
+    response.stubs(:body).returns("123435")
+    MadMimiMailer.expects(:post_request).yields(mock_request).returns(response)
+
+    MadMimiMailer.deliver_mimi_unconfirmed("welcome unconfirmed user")
   end
 end
