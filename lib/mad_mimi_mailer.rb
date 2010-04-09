@@ -8,6 +8,9 @@ class MadMimiMailer < ActionMailer::Base
 
   @@api_settings = {}
   cattr_accessor :api_settings
+  
+  @@default_parameters = {}
+  cattr_accessor :default_parameters
 
   # Custom Mailer attributes
 
@@ -86,8 +89,8 @@ class MadMimiMailer < ActionMailer::Base
         'promotion_name' => mail.promotion || method.to_s.sub(/^mimi_/, ''),
         'recipients' =>     serialize(mail.recipients),
         'subject' =>        mail.subject,
-        'bcc' =>            serialize(mail.bcc),
-        'from' =>           mail.from,
+        'bcc' =>            serialize(mail.bcc || @@default_parameters[:bcc]),
+        'from' =>           (mail.from || @@default_parameters[:from]),
         'hidden' =>         serialize(mail.hidden)
       }
 
@@ -102,7 +105,10 @@ class MadMimiMailer < ActionMailer::Base
           params['raw_html'] = mail.body
         end
       else
-        params['body'] = mail.body.to_yaml
+        stringified_default_body = (@@default_parameters[:body] || {}).stringify_keys!
+        stringified_mail_body = (mail.body || {}).stringify_keys!
+        body_hash = stringified_default_body.merge(stringified_mail_body)
+        params['body'] = body_hash.to_yaml
       end
 
       response = post_request do |request|

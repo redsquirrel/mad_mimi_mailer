@@ -18,7 +18,7 @@ class TestMadMimiMailer < Test::Unit::TestCase
       'subject' =>        "welcome to mad mimi",
       'bcc' =>            "Gregg Pollack <gregg@example.com>, David Clymer <david@example>",
       'from' =>           "dave@obtiva.com",
-      'body' =>           "--- \n:message: welcome to mad mimi\n",
+      'body' =>           "--- \nmessage: welcome to mad mimi\n",
       'hidden' =>         nil
     )
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
@@ -36,7 +36,7 @@ class TestMadMimiMailer < Test::Unit::TestCase
       'subject' =>        "welcome to mad mimi",
       'bcc' =>            "Gregg Pollack <gregg@example.com>, David Clymer <david@example>",
       'from' =>           "dave@obtiva.com",
-      'body' =>           "--- \n:message: welcome to mad mimi\n",
+      'body' =>           "--- \nmessage: welcome to mad mimi\n",
       'hidden' =>         nil
     )
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
@@ -55,7 +55,7 @@ class TestMadMimiMailer < Test::Unit::TestCase
       'bcc' =>            nil,
       'subject' =>        "welcome to mad mimi",
       'from' =>           "dave@obtiva.com",
-      'body' =>           "--- \n:message: welcome to mad mimi\n",
+      'body' =>           "--- \nmessage: welcome to mad mimi\n",
       'hidden' =>         nil
     )
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
@@ -105,7 +105,7 @@ class TestMadMimiMailer < Test::Unit::TestCase
     mock_request.expects(:set_form_data).with(
       'username' => "testy@mctestin.com",
       'api_key' =>  "w00tb4r",
-      'body' => "--- \n:message: welcome unconfirmed user\n",
+      'body' => "--- \nmessage: welcome unconfirmed user\n",
       'promotion_name' => "woot",
       'recipients' =>     'egunderson@obtiva.com',
       'bcc' =>            nil,
