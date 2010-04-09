@@ -88,11 +88,11 @@ class TestDefaultParameters < Test::Unit::TestCase
   private
   
   def create_mailer_with_default_parameter(param_key, param_value)
+    MadMimiMailer.default_parameters = {param_key => param_value}
+    
     @mailer_class = Class.new(MadMimiMailer) do
       def mimi_default_param
       end
     end
-    
-    @mailer_class.default_parameters = {param_key => param_value}
   end
 end
