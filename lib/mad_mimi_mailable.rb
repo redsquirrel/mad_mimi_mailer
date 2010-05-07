@@ -1,5 +1,5 @@
 module MadMimiMailable
-  SINGLE_SEND_URL = 'https://madmimi.com/mailer'
+  SINGLE_SEND_URL = 'https://api.madmimi.com/mailer'
   
   def self.included(base)
     base.extend(ClassMethods)
