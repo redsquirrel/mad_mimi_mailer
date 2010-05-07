@@ -40,7 +40,7 @@ module MadMimiMailable
   end
 
   module ClassMethods
-    attr_accessor :method_prefix
+    attr_accessor :method_prefix, :use_erb
     
     def method_missing(method_symbol, *parameters)
       if method_prefix && method_symbol.id2name.match(/^deliver_(#{method_prefix}_[_a-z]\w*)/)
@@ -56,7 +56,7 @@ module MadMimiMailable
       mail = new
       mail.__send__(method, *parameters)
 
-      if mail.use_erb
+      if use_erb?(mail)
         mail.create!(method, *parameters)
       end
 
@@ -90,7 +90,7 @@ module MadMimiMailable
 
       params['unconfirmed'] = '1' if mail.unconfirmed
 
-      if mail.use_erb
+      if use_erb?(mail)
         if mail.parts.any?
           params['raw_plain_text'] = content_for(mail, "text/plain")
           params['raw_html'] = content_for(mail, "text/html") { |html| validate(html.body) }
@@ -153,6 +153,10 @@ module MadMimiMailable
       else
         raise "Please provide a String or an Array for recipients or bcc."
       end
+    end
+    
+    def use_erb?(mail)
+      mail.use_erb || use_erb
     end
   end
 

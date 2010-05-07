@@ -13,9 +13,10 @@ class VanillaMailer < ActionMailer::Base
   end
 end
 
-class ChocolateMailer < ActionMailer::Base
+class ChocolateErbMailer < ActionMailer::Base
   include MadMimiMailable
   self.method_prefix = "sugary"
+  self.use_erb = true
 
   self.template_root = File.dirname(__FILE__) + '/templates/'
   
@@ -53,7 +54,7 @@ class MadMimiMailableTest < Test::Unit::TestCase
     VanillaMailer.deliver_hola("welcome to mad mimi")
   end
 
-  def test_request_with_custom_method_prefix
+  def test_erb_request_with_custom_method_prefix
     mock_request = mock("request")
     mock_request.expects(:set_form_data).with(
       'username' => "testy@mctestin.com",
@@ -63,12 +64,13 @@ class MadMimiMailableTest < Test::Unit::TestCase
       'subject' =>        "welcome to mad mimi",
       'bcc' =>            nil,
       'from' =>           "dave@obtiva.com",
-      'body' =>           "--- \nmessage: welcome to mad mimi\n",
+      'raw_html' =>       "hi there, welcome to mad mimi [[peek_image]]",
+      'raw_plain_text' =>     nil,
       'hidden' =>         nil
     )
-    ChocolateMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
+    ChocolateErbMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
 
-    ChocolateMailer.deliver_sugary_hola("welcome to mad mimi")
+    ChocolateErbMailer.deliver_sugary_hola("welcome to mad mimi")
   end
 
 end

@@ -5,7 +5,7 @@ require "net/https"
 require "mad_mimi_mailable"
 
 class MadMimiMailer < ActionMailer::Base
-  VERSION = '0.1.1'
+  VERSION = '0.1.2'
 
   @@api_settings = {}
   cattr_accessor :api_settings
