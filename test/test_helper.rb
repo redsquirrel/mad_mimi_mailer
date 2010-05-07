@@ -71,4 +71,11 @@ class MadMimiMailer
     body :message => greeting
     unconfirmed true
   end
+  
+  def normal_non_mimi_email
+    subject "Look, I'm normal!"
+    recipients "tyler@obtiva.com"
+    from "dave@obtiva.com"
+    body :message => "something"
+  end
 end

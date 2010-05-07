@@ -1,4 +1,5 @@
 module MadMimiMailable
+  SINGLE_SEND_URL = 'https://madmimi.com/mailer'
   
   def self.included(base)
     base.extend(ClassMethods)
@@ -38,9 +39,13 @@ module MadMimiMailable
     end
   end
 
-  module ClassMethods        
+  module ClassMethods
+    attr_accessor :method_prefix
+    
     def method_missing(method_symbol, *parameters)
-      if method_symbol.id2name.match(/^deliver_([_a-z]\w*)/)
+      if method_prefix && method_symbol.id2name.match(/^deliver_(#{method_prefix}_[_a-z]\w*)/)
+        deliver_mimi_mail($1, *parameters)
+      elsif method_prefix.nil? && method_symbol.id2name.match(/^deliver_([_a-z]\w*)/)
         deliver_mimi_mail($1, *parameters)
       else
         super
@@ -75,7 +80,7 @@ module MadMimiMailable
       params = {
         'username' => MadMimiMailer.api_settings[:username],
         'api_key' =>  MadMimiMailer.api_settings[:api_key],
-        'promotion_name' => mail.promotion || method.to_s.sub(/^mimi_/, ''),
+        'promotion_name' => mail.promotion || method.to_s.sub(/^#{method_prefix}_/, ''),
         'recipients' =>     serialize(mail.recipients),
         'subject' =>        mail.subject,
         'bcc' =>            serialize(mail.bcc || MadMimiMailer.default_parameters[:bcc]),

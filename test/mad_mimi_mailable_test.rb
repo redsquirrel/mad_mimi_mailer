@@ -13,6 +13,20 @@ class VanillaMailer < ActionMailer::Base
   end
 end
 
+class ChocolateMailer < ActionMailer::Base
+  include MadMimiMailable
+  self.method_prefix = "sugary"
+
+  self.template_root = File.dirname(__FILE__) + '/templates/'
+  
+  def sugary_hola(greeting)
+    subject greeting
+    recipients "tyler@obtiva.com"
+    from "dave@obtiva.com"
+    body :message => greeting    
+  end
+end
+
 class MadMimiMailableTest < Test::Unit::TestCase
 
   def setup
@@ -38,4 +52,23 @@ class MadMimiMailableTest < Test::Unit::TestCase
 
     VanillaMailer.deliver_hola("welcome to mad mimi")
   end
+
+  def test_request_with_custom_method_prefix
+    mock_request = mock("request")
+    mock_request.expects(:set_form_data).with(
+      'username' => "testy@mctestin.com",
+      'api_key' =>  "w00tb4r",
+      'promotion_name' => "hola",
+      'recipients' =>     "tyler@obtiva.com",
+      'subject' =>        "welcome to mad mimi",
+      'bcc' =>            nil,
+      'from' =>           "dave@obtiva.com",
+      'body' =>           "--- \nmessage: welcome to mad mimi\n",
+      'hidden' =>         nil
+    )
+    ChocolateMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
+
+    ChocolateMailer.deliver_sugary_hola("welcome to mad mimi")
+  end
+
 end
