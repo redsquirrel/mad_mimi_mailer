@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/test_helper')
 
-class TestMadMimiMailer < Test::Unit::TestCase
+class MadMimiMailerTest < Test::Unit::TestCase
 
   def setup
     ActionMailer::Base.deliveries.clear

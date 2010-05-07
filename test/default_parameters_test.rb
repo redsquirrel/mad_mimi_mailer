@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/test_helper')
 
-class TestDefaultParameters < Test::Unit::TestCase
+class DefaultParametersTest < Test::Unit::TestCase
   def setup
     ActionMailer::Base.deliveries.clear
     @ok_reponse = Net::HTTPSuccess.new("1.2", '200', 'OK')
