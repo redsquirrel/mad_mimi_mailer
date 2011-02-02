@@ -5,8 +5,8 @@ require "mocha"
 require "mad_mimi_mailer"
 
 MadMimiMailer.api_settings = {
-  :username => "testy@mctestin.com",
-  :api_key => "w00tb4r"
+    :username => "testy@mctestin.com",
+    :api_key  => "w00tb4r"
 }
 
 class MadMimiMailer
@@ -62,7 +62,7 @@ class MadMimiMailer
     from "dave@obtiva.com"
     body :message => greeting
   end
-  
+
   def mimi_unconfirmed(greeting)
     subject greeting
     recipients 'egunderson@obtiva.com'
@@ -71,7 +71,16 @@ class MadMimiMailer
     body :message => greeting
     unconfirmed true
   end
-  
+
+  def mimi_supressed(greeting)
+    subject greeting
+    recipients 'egunderson@obtiva.com'
+    from 'mimi@obtiva.com'
+    promotion 'woot'
+    body :message => greeting
+    check_suppressed true
+  end
+
   def normal_non_mimi_email
     subject "Look, I'm normal!"
     recipients "tyler@obtiva.com"

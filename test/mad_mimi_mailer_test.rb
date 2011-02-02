@@ -11,15 +11,15 @@ class MadMimiMailerTest < Test::Unit::TestCase
   def test_custom_promotion
     mock_request = mock("request")
     mock_request.expects(:set_form_data).with(
-      'username' => "testy@mctestin.com",
-      'api_key' =>  "w00tb4r",
-      'promotion_name' => "hello",
-      'recipients' =>     "tyler@obtiva.com",
-      'subject' =>        "welcome to mad mimi",
-      'bcc' =>            "Gregg Pollack <gregg@example.com>, David Clymer <david@example>",
-      'from' =>           "dave@obtiva.com",
-      'body' =>           "--- \nmessage: welcome to mad mimi\n",
-      'hidden' =>         nil
+        'username'       => "testy@mctestin.com",
+        'api_key'        => "w00tb4r",
+        'promotion_name' => "hello",
+        'recipients'     => "tyler@obtiva.com",
+        'subject'        => "welcome to mad mimi",
+        'bcc'            => "Gregg Pollack <gregg@example.com>, David Clymer <david@example>",
+        'from'           => "dave@obtiva.com",
+        'body'           => "--- \nmessage: welcome to mad mimi\n",
+        'hidden'         => nil
     )
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
 
@@ -29,15 +29,15 @@ class MadMimiMailerTest < Test::Unit::TestCase
   def test_happy_path
     mock_request = mock("request")
     mock_request.expects(:set_form_data).with(
-      'username' => "testy@mctestin.com",
-      'api_key' =>  "w00tb4r",
-      'promotion_name' => "hello",
-      'recipients' =>     "tyler@obtiva.com",
-      'subject' =>        "welcome to mad mimi",
-      'bcc' =>            "Gregg Pollack <gregg@example.com>, David Clymer <david@example>",
-      'from' =>           "dave@obtiva.com",
-      'body' =>           "--- \nmessage: welcome to mad mimi\n",
-      'hidden' =>         nil
+        'username'       => "testy@mctestin.com",
+        'api_key'        => "w00tb4r",
+        'promotion_name' => "hello",
+        'recipients'     => "tyler@obtiva.com",
+        'subject'        => "welcome to mad mimi",
+        'bcc'            => "Gregg Pollack <gregg@example.com>, David Clymer <david@example>",
+        'from'           => "dave@obtiva.com",
+        'body'           => "--- \nmessage: welcome to mad mimi\n",
+        'hidden'         => nil
     )
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
 
@@ -48,15 +48,15 @@ class MadMimiMailerTest < Test::Unit::TestCase
   def test_blank_bcc
     mock_request = mock("request")
     mock_request.expects(:set_form_data).with(
-      'username' => "testy@mctestin.com",
-      'api_key' =>  "w00tb4r",
-      'promotion_name' => "hello_sans_bcc",
-      'recipients' =>     "tyler@obtiva.com",
-      'bcc' =>            nil,
-      'subject' =>        "welcome to mad mimi",
-      'from' =>           "dave@obtiva.com",
-      'body' =>           "--- \nmessage: welcome to mad mimi\n",
-      'hidden' =>         nil
+        'username'       => "testy@mctestin.com",
+        'api_key'        => "w00tb4r",
+        'promotion_name' => "hello_sans_bcc",
+        'recipients'     => "tyler@obtiva.com",
+        'bcc'            => nil,
+        'subject'        => "welcome to mad mimi",
+        'from'           => "dave@obtiva.com",
+        'body'           => "--- \nmessage: welcome to mad mimi\n",
+        'hidden'         => nil
     )
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
 
@@ -66,15 +66,15 @@ class MadMimiMailerTest < Test::Unit::TestCase
   def test_erb_render
     mock_request = mock("request")
     mock_request.expects(:set_form_data).with(
-      'username' => "testy@mctestin.com",
-      'api_key' =>  "w00tb4r",
-      'promotion_name' => "w00t",
-      'recipients' =>     "tyler@obtiva.com",
-      'bcc' =>            nil,
-      'subject' =>        "welcome to mad mimi",
-      'from' =>           "dave@obtiva.com",
-      'raw_html' =>       "hi there, welcome to mad mimi [[peek_image]]",
-      'hidden' =>         nil
+        'username'       => "testy@mctestin.com",
+        'api_key'        => "w00tb4r",
+        'promotion_name' => "w00t",
+        'recipients'     => "tyler@obtiva.com",
+        'bcc'            => nil,
+        'subject'        => "welcome to mad mimi",
+        'from'           => "dave@obtiva.com",
+        'raw_html'       => "hi there, welcome to mad mimi [[peek_image]]",
+        'hidden'         => nil
     )
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
 
@@ -84,39 +84,66 @@ class MadMimiMailerTest < Test::Unit::TestCase
   def test_multipart_erb_render
     mock_request = mock("request")
     mock_request.expects(:set_form_data).with(
-      'username' => "testy@mctestin.com",
-      'api_key' =>  "w00tb4r",
-      'promotion_name' => 'w00t',
-      'recipients' =>     "sandro@hashrocket.com",
-      'bcc' =>            nil,
-      'subject' =>        "welcome to mad mimi",
-      'from' =>           "stephen@hashrocket.com",
-      'raw_html' =>       "hi there, welcome to mad mimi [[tracking_beacon]]",
-      'raw_plain_text' => "hi there, welcome to mad mimi!",
-      'hidden' =>         nil
+        'username'       => "testy@mctestin.com",
+        'api_key'        => "w00tb4r",
+        'promotion_name' => 'w00t',
+        'recipients'     => "sandro@hashrocket.com",
+        'bcc'            => nil,
+        'subject'        => "welcome to mad mimi",
+        'from'           => "stephen@hashrocket.com",
+        'raw_html'       => "hi there, welcome to mad mimi [[tracking_beacon]]",
+        'raw_plain_text' => "hi there, welcome to mad mimi!",
+        'hidden'         => nil
     )
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
 
     MadMimiMailer.deliver_mimi_multipart_hello_erb("welcome to mad mimi")
   end
-  
+
   def test_delivers_contain_unconfirmed_param_if_unconfirmed_is_set
     mock_request = mock("request")
     mock_request.expects(:set_form_data).with(
-      'username' => "testy@mctestin.com",
-      'api_key' =>  "w00tb4r",
-      'body' => "--- \nmessage: welcome unconfirmed user\n",
-      'promotion_name' => "woot",
-      'recipients' =>     'egunderson@obtiva.com',
-      'bcc' =>            nil,
-      'subject' =>        "welcome unconfirmed user",
-      'from' =>           "mimi@obtiva.com",
-      'hidden' =>         nil,
-      'unconfirmed' =>    '1'
+        'username'       => "testy@mctestin.com",
+        'api_key'        => "w00tb4r",
+        'body'           => "--- \nmessage: welcome unconfirmed user\n",
+        'promotion_name' => "woot",
+        'recipients'     => 'egunderson@obtiva.com',
+        'bcc'            => nil,
+        'subject'        => "welcome unconfirmed user",
+        'from'           => "mimi@obtiva.com",
+        'hidden'         => nil,
+        'unconfirmed'    => '1'
     )
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
 
     MadMimiMailer.deliver_mimi_unconfirmed("welcome unconfirmed user")
+  end
+
+#  check_suppressed true
+#    subject greeting
+#    recipients 'egunderson@obtiva.com'
+#    from 'mimi@obtiva.com'
+#    promotion 'woot'
+#    body :message => greeting
+#    unconfirmed true
+
+  def test_delivers_check_suppressed_param_if_check_suppressed_is_set
+    mock_request = mock("request")
+    mock_request.expects(:set_form_data).with(
+        'username'         => "testy@mctestin.com",
+        'api_key'          => "w00tb4r",
+        'body'             => "--- \nmessage: welcome unconfirmed user\n",
+        'promotion_name'   => "woot",
+        'recipients'       => 'egunderson@obtiva.com',
+        'bcc'              => nil,
+        'subject'          => "welcome unconfirmed user",
+        'from'             => "mimi@obtiva.com",
+        'hidden'           => nil,
+        'check_suppressed' => '1'
+    )
+    MadMimiMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
+
+    MadMimiMailer.deliver_mimi_supressed("welcome unconfirmed user")
   end
 
   def test_deliveries_contain_tmail_objects_when_use_erb_in_test_mode
@@ -124,7 +151,7 @@ class MadMimiMailerTest < Test::Unit::TestCase
     MadMimiMailer.deliver_mimi_multipart_hello_erb("welcome to mad mimi")
     ActionMailer::Base.delivery_method = :smtp
 
-    assert ActionMailer::Base.deliveries.all?{|m| m.kind_of?(TMail::Mail)}
+    assert ActionMailer::Base.deliveries.all? { |m| m.kind_of?(TMail::Mail) }
   end
 
   def test_erb_render_fails_without_peek_image
@@ -168,13 +195,13 @@ class MadMimiMailerTest < Test::Unit::TestCase
       MadMimiMailer.deliver_mimi_hello("welcome to mad mimi")
     end
   end
-  
+
   def test_normal_non_mimi_email
     ActionMailer::Base.delivery_method = :test
     MadMimiMailer.expects(:post_request).never
-    MadMimiMailer.deliver_normal_non_mimi_email    
+    MadMimiMailer.deliver_normal_non_mimi_email
   end
-  
+
   def test_assert_mail_sent
     ActionMailer::Base.delivery_method = :test
     MadMimiMailer.deliver_mimi_hello("welcome to mad mimi")
