@@ -132,18 +132,18 @@ class MadMimiMailerTest < Test::Unit::TestCase
     mock_request.expects(:set_form_data).with(
         'username'         => "testy@mctestin.com",
         'api_key'          => "w00tb4r",
-        'body'             => "--- \nmessage: welcome unconfirmed user\n",
+        'body'             => "--- \nmessage: welcome user\n",
         'promotion_name'   => "woot",
         'recipients'       => 'egunderson@obtiva.com',
         'bcc'              => nil,
-        'subject'          => "welcome unconfirmed user",
+        'subject'          => "welcome user",
         'from'             => "mimi@obtiva.com",
         'hidden'           => nil,
         'check_suppressed' => '1'
     )
     MadMimiMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
 
-    MadMimiMailer.deliver_mimi_supressed("welcome unconfirmed user")
+    MadMimiMailer.deliver_mimi_supressed("welcome user")
   end
 
   def test_deliveries_contain_tmail_objects_when_use_erb_in_test_mode
