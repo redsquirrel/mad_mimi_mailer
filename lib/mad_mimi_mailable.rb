@@ -64,9 +64,9 @@ module MadMimiMailable
       mail = new
       mail.__send__(method, *parameters)
 
-      if use_erb?(mail)
-        mail.create!(method, *parameters)
-      end
+#      if use_erb?(mail)
+#        mail.create!(method, *parameters)
+#      end
 
       return unless perform_deliveries
 
