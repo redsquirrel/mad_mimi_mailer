@@ -72,6 +72,15 @@ class MadMimiMailer
     unconfirmed true
   end
   
+  def mimi_skip_placeholers(greeting)
+    subject greeting
+    recipients 'egunderson@obtiva.com'
+    from 'mimi@obtiva.com'
+    promotion 'woot'
+    body :message => greeting
+    skip_placeholders true
+  end
+  
   def normal_non_mimi_email
     subject "Look, I'm normal!"
     recipients "tyler@obtiva.com"

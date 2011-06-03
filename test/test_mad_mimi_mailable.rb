@@ -11,6 +11,7 @@ class VanillaMailer < ActionMailer::Base
     from "dave@obtiva.com"
     body :message => greeting    
   end
+
 end
 
 class ChocolateErbMailer < ActionMailer::Base
@@ -25,6 +26,14 @@ class ChocolateErbMailer < ActionMailer::Base
     recipients "tyler@obtiva.com"
     from "dave@obtiva.com"
     body :message => greeting    
+  end
+  
+  def sugary_skip_hola(greeting)
+    subject greeting
+    recipients "tyler@obtiva.com"
+    from "dave@obtiva.com"
+    body :message => greeting
+    skip_placeholders true
   end
 end
 
@@ -71,6 +80,26 @@ class MadMimiMailableTest < Test::Unit::TestCase
     ChocolateErbMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
 
     ChocolateErbMailer.deliver_sugary_hola("welcome to mad mimi")
+  end
+  
+  def test_erb_request_skipping_placeholders
+    mock_request = mock("request")
+    mock_request.expects(:set_form_data).with(
+      'username' => "testy@mctestin.com",
+      'api_key' =>  "w00tb4r",
+      'promotion_name' => "skip_hola",
+      'recipients' =>     "tyler@obtiva.com",
+      'subject' =>        "{welcome to mad mimi}",
+      'bcc' =>            nil,
+      'from' =>           "dave@obtiva.com",
+      'raw_html' =>       "hi there, {welcome} to mad mimi [[peek_image]]",
+      'raw_plain_text' =>     nil,
+      'hidden' =>         nil,
+      'skip_placeholders' => '1'
+    )
+    ChocolateErbMailer.expects(:post_request).yields(mock_request).returns(@ok_reponse)
+
+    ChocolateErbMailer.deliver_sugary_skip_hola("{welcome to mad mimi}")
   end
 
 end
