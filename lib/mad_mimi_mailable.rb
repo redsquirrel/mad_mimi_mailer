@@ -93,6 +93,7 @@ module MadMimiMailable
         'subject' =>        mail.subject,
         'bcc' =>            serialize(mail.bcc || MadMimiMailer.default_parameters[:bcc]),
         'from' =>           (mail.from || MadMimiMailer.default_parameters[:from]),
+        'reply_to' =>       mail.reply_to,
         'hidden' =>         serialize(mail.hidden)
       }
 
