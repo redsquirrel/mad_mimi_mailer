@@ -30,6 +30,14 @@ module MadMimiMailable
       @hidden = hidden
     end
   end
+
+  def check_suppressed(check_suppressed = nil)
+    if check_suppressed.nil?
+      @check_suppressed
+    else
+      @check_suppressed = check_suppressed
+    end
+  end
   
   def unconfirmed(value = nil)
     if value.nil?
@@ -56,9 +64,9 @@ module MadMimiMailable
       mail = new
       mail.__send__(method, *parameters)
 
-      if use_erb?(mail)
-        mail.create!(method, *parameters)
-      end
+#      if use_erb?(mail)
+#        mail.create!(method, *parameters)
+#      end
 
       return unless perform_deliveries
 
@@ -85,10 +93,11 @@ module MadMimiMailable
         'subject' =>        mail.subject,
         'bcc' =>            serialize(mail.bcc || MadMimiMailer.default_parameters[:bcc]),
         'from' =>           (mail.from || MadMimiMailer.default_parameters[:from]),
-        'hidden' =>         serialize(mail.hidden)
+        'hidden' =>         serialize(mail.hidden),
       }
 
       params['unconfirmed'] = '1' if mail.unconfirmed
+      params['check_suppressed'] = '1' if mail.check_suppressed
 
       if use_erb?(mail)
         if mail.parts.any?
