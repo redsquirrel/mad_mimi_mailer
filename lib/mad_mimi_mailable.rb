@@ -38,6 +38,14 @@ module MadMimiMailable
       @unconfirmed = value
     end
   end
+  
+  def skip_placeholders(value = nil)
+    if value.nil?
+      @skip_placeholders
+    else
+      @skip_placeholders = value
+    end
+  end
 
   module ClassMethods
     attr_accessor :method_prefix, :use_erb
@@ -85,10 +93,13 @@ module MadMimiMailable
         'subject' =>        mail.subject,
         'bcc' =>            serialize(mail.bcc || MadMimiMailer.default_parameters[:bcc]),
         'from' =>           (mail.from || MadMimiMailer.default_parameters[:from]),
+        'reply_to' =>       mail.reply_to,
         'hidden' =>         serialize(mail.hidden)
       }
 
       params['unconfirmed'] = '1' if mail.unconfirmed
+      
+      params['skip_placeholders'] = 'true' if mail.skip_placeholders
 
       if use_erb?(mail)
         if mail.parts.any?
